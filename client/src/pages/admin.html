@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Grievances</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 8px 8px 0 0;
+        }
+        .grievance-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .grievance-table th, .grievance-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .grievance-table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .Pending { background-color: #dc3545; }
+        ."In Progress" { background-color: #ffc107; color: black; }
+        .Resolved { background-color: #28a745; }
+        .action-btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            background-color: #003d80;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">Admin Dashboard - Grievances Received</div>
+        <table class="grievance-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="grievanceList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const grievances = [
+            { id: 1, title: "Broken Chair & Tables", category: "Facility", status: "Pending" },
+            { id: 2, title: "Network Issues", category: "IT", status: "Resolved" },
+            { id: 3, title: "Library Books", category: "Academic", status: "In Progress" },
+            { id: 4, title: "Restrooms are not cleaned regularly", category: "Facility", status: "In Progress" },
+            { id: 5, title: "Mess food is of poor quality", category: "Hostel", status: "In Progress" },
+            { id: 6, title: "ACs not working in classrooms", category: "Facility", status: "Pending" },
+            { id: 7, title: "Exam timetable clashes", category: "Academic", status: "Pending" },
+            { id: 8, title: "Wi-Fi is unstable in the hostel", category: "IT", status: "Resolved" },
+            { id: 9, title: "Insufficient parking space", category: "Transport", status: "Pending" },
+            { id: 10, title: "Bus service delays", category: "Transport", status: "In Progress" }
+        ];
+
+        const grievanceList = document.getElementById('grievanceList');
+
+        grievances.forEach(grievance => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${grievance.id}</td>
+                <td>${grievance.title}</td>
+                <td>${grievance.category}</td>
+                <td><span class="status ${grievance.status}">${grievance.status}</span></td>
+                <td><button class="action-btn" onclick="updateStatus(${grievance.id})">Update Status</button></td>
+            `;
+            grievanceList.appendChild(row);
+        });
+
+        function updateStatus(id) {
+            const grievance = grievances.find(g => g.id === id);
+            const nextStatus = {
+                "Pending": "In Progress",
+                "In Progress": "Resolved",
+                "Resolved": "Pending"
+            };
+
+            grievance.status = nextStatus[grievance.status] || "Pending";
+            grievanceList.innerHTML = '';
+            grievances.forEach(g => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${g.id}</td>
+                    <td>${g.title}</td>
+                    <td>${g.category}</td>
+                    <td><span class="status ${g.status}">${g.status}</span></td>
+                    <td><button class="action-btn" onclick="updateStatus(${g.id})">Update Status</button></td>
+                `;
+                grievanceList.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

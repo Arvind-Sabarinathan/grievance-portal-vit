@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievances Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8fb;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+        }
+        .summary {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid #007BFF;
+            background-color: #e9f5ff;
+            border-radius: 5px;
+        }
+        .category-title {
+            font-weight: bold;
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grievances Issue Summary</h1>
+        <div id="summaryContainer"></div>
+    </div>
+
+    <script>
+        const grievances = [
+            { id: 1, title: "Broken Chair & Tables", category: "Facility", status: "Pending" },
+            { id: 2, title: "Network Issues", category: "IT", status: "Resolved" },
+            { id: 3, title: "Library Books", category: "Academic", status: "In Progress" },
+            { id: 4, title: "Restrooms are not cleaned regularly", category: "Facility", status: "In Progress" },
+            { id: 5, title: "Mess food is of poor quality", category: "Hostel", status: "In Progress" },
+            { id: 6, title: "ACs not working in classrooms", category: "Facility", status: "Pending" },
+            { id: 7, title: "Exam timetable clashes", category: "Academic", status: "Pending" },
+            { id: 8, title: "Wi-Fi is unstable in the hostel", category: "IT", status: "Resolved" },
+            { id: 9, title: "Insufficient parking space", category: "Transport", status: "Pending" },
+            { id: 10, title: "Bus service delays", category: "Transport", status: "In Progress" },
+            { id: 11, title: "Hostel rooms need maintenance", category: "Hostel", status: "Resolved" },
+            { id: 12, title: "Sports equipment is outdated", category: "Sports", status: "Pending" },
+            { id: 13, title: "Lab equipment not functioning", category: "Academic", status: "In Progress" },
+            { id: 14, title: "Late delivery of ID cards", category: "Administration", status: "Resolved" },
+            { id: 15, title: "Unhygienic conditions in the canteen", category: "Facility", status: "Pending" },
+            { id: 16, title: "Gym equipment is broken", category: "Sports", status: "In Progress" },
+            { id: 17, title: "Slow internet in library", category: "IT", status: "Pending" },
+            { id: 18, title: "Water coolers not working", category: "Facility", status: "Resolved" },
+            { id: 19, title: "Inadequate bus routes", category: "Transport", status: "Pending" },
+            { id: 20, title: "Hostel security concerns", category: "Hostel", status: "In Progress" }
+        ];
+
+        const summaryContainer = document.getElementById('summaryContainer');
+
+        const categorizedGrievances = grievances.reduce((acc, grievance) => {
+            if (!acc[grievance.category]) {
+                acc[grievance.category] = [];
+            }
+            acc[grievance.category].push(grievance);
+            return acc;
+        }, {});
+
+        for (const category in categorizedGrievances) {
+            const issues = categorizedGrievances[category];
+            const pending = issues.filter(issue => issue.status === "Pending").length;
+            const inProgress = issues.filter(issue => issue.status === "In Progress").length;
+            const resolved = issues.filter(issue => issue.status === "Resolved").length;
+
+            const titles = issues.map(issue => issue.title).join(", ");
+
+            const summaryText = `In the ${category} category, there are several grievances reported such as ${titles}. Among these, ${pending} issues are pending, ${inProgress} are currently in progress, and ${resolved} have been successfully resolved. This highlights the ongoing concerns and the efforts being made to address them.`;
+
+            const summaryElement = document.createElement('div');
+            summaryElement.className = 'summary';
+            summaryElement.innerHTML = `<div class='category-title'>${category} Summary:</div><p>${summaryText}</p>`;
+            summaryContainer.appendChild(summaryElement);
+        }
+    </script>
+</body>
+</html>
